@@ -1,0 +1,1769 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rocket de Laval 2026-2027 - Matchs locaux</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --ink: #12233f;
+      --muted: #61728f;
+      --red: #c41f3a;
+      --red-soft: #f4c9d1;
+      --blue: #1a3474;
+      --line: #d9e1f0;
+      --shadow: 0 16px 38px rgba(18, 35, 63, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(196, 31, 58, 0.12), transparent 25%),
+        radial-gradient(circle at top right, rgba(26, 52, 116, 0.12), transparent 25%),
+        var(--bg);
+      color: var(--ink);
+    }
+
+    .page {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+
+    .hero {
+      margin-bottom: 24px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card,
+    .chart-card,
+    .table-card {
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 3vw, 3.2rem);
+      line-height: 1.05;
+    }
+
+    h2 {
+      margin: 0 0 6px;
+      font-size: 1.2rem;
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .subtitle,
+    .muted,
+    .footer {
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .distribution-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(26, 52, 116, 0.06), rgba(196, 31, 58, 0.08));
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+    }
+
+    .insight {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(160deg, var(--blue), #102654);
+      color: #fff;
+    }
+
+    .big-number {
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 0.9;
+      margin: 14px 0 10px;
+    }
+
+    .insight p {
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    .assignment-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin: 16px 0;
+    }
+
+    .toolbar-actions,
+    .pill-row,
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .button {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(135deg, var(--red), #e24c63);
+      box-shadow: 0 10px 22px rgba(196, 31, 58, 0.22);
+    }
+
+    .button.secondary {
+      color: var(--ink);
+      background: #eef3ff;
+      box-shadow: none;
+    }
+
+    .person-pill,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fafcff;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+    }
+
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--swatch, var(--blue));
+      box-shadow: 0 0 0 4px rgba(18, 35, 63, 0.06);
+    }
+
+    .bars,
+    .legend-chart {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 42px;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+    }
+
+    .bar-track,
+    .stack-bar {
+      background: #edf2fb;
+      overflow: hidden;
+    }
+
+    .bar-track {
+      height: 14px;
+      border-radius: 999px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--red), #ef5f73);
+    }
+
+    .bar-fill.blue {
+      background: linear-gradient(90deg, var(--blue), #4f78d7);
+    }
+
+    .stack-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 42px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .stack-bar {
+      min-height: 18px;
+      display: flex;
+      border-radius: 999px;
+    }
+
+    .stack-segment {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 2px 0;
+    }
+
+    .tiny-note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      margin-top: 18px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.86rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: rgba(26, 52, 116, 0.045);
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(196, 31, 58, 0.045);
+    }
+
+    .month-tag {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: var(--red-soft);
+      color: #7f1630;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .person-select {
+      width: 100%;
+      min-width: 116px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 10px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .assignment-value {
+      display: none;
+    }
+
+    .match-options {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lock-button {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      min-width: 42px;
+      height: 38px;
+      padding: 0 10px;
+      background: #fff;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .lock-button.is-locked {
+      border-color: var(--red);
+      color: var(--red);
+      background: #fff4f6;
+    }
+
+    .availability-menu {
+      position: relative;
+    }
+
+    .availability-menu summary {
+      cursor: pointer;
+      color: var(--blue);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .availability-list {
+      position: absolute;
+      z-index: 3;
+      right: 0;
+      top: calc(100% + 6px);
+      display: grid;
+      gap: 8px;
+      min-width: 210px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .availability-list label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .roster-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .roster-row {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .roster-actions {
+      margin-top: 16px;
+    }
+
+    .roster-add-swatch {
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(18, 35, 63, 0.04);
+    }
+
+    .name-input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .icon-button {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 11px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .export-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .chart-legend .person-pill {
+      padding: 7px 10px;
+      font-size: 0.82rem;
+    }
+
+    .timeline-chart {
+      position: relative;
+      min-height: 620px;
+      margin-top: 18px;
+    }
+
+    .timeline-month-guide {
+      position: absolute;
+      right: 0;
+      left: 0;
+      border-top: 1px dashed var(--line);
+    }
+
+    .timeline-month-guide span {
+      position: relative;
+      top: -10px;
+      display: inline-block;
+      padding-right: 8px;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .timeline-columns {
+      position: absolute;
+      inset: 0 0 0 56px;
+      display: grid;
+      grid-template-columns: repeat(var(--person-count), minmax(18px, 1fr));
+      gap: 10px;
+    }
+
+    .timeline-person-column {
+      position: relative;
+    }
+
+    .timeline-person-track {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      opacity: 0.7;
+    }
+
+    .vertical-timeline-dot {
+      position: absolute;
+      left: 50%;
+      width: 14px;
+      height: 14px;
+      padding: 0;
+      border: 3px solid #fff;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(18, 35, 63, 0.28);
+    }
+
+    .vertical-timeline-dot.is-close {
+      box-shadow: 0 0 0 3px rgba(196, 31, 58, 0.72);
+    }
+
+    .wide-chart-card {
+      grid-column: 1 / -1;
+    }
+
+    .opponent-chart {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 24px;
+    }
+
+    .modal-backdrop[hidden] {
+      display: none;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(18, 35, 63, 0.48);
+    }
+
+    .modal {
+      width: min(100%, 520px);
+      padding: 24px;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .modal-option {
+      display: grid;
+      gap: 10px;
+      padding: 16px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer {
+      margin-top: 18px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bar-row,
+      .stack-row {
+        grid-template-columns: 96px 1fr 36px;
+      }
+
+      .opponent-chart {
+        grid-template-columns: 1fr;
+      }
+
+      .stack-row {
+        grid-template-columns: 96px 1fr 36px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 20px 12px 32px;
+      }
+
+      .hero-card,
+      .chart-card,
+      .table-card {
+        padding: 18px;
+      }
+
+      .assignment-toolbar {
+        align-items: stretch;
+      }
+
+      .timeline-chart {
+        min-height: 600px;
+      }
+
+      .toolbar-actions,
+      .toolbar-actions .button {
+        width: 100%;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      table {
+        margin-top: 14px;
+      }
+
+      tbody {
+        display: grid;
+        gap: 12px;
+      }
+
+      tbody tr,
+      tbody tr:nth-child(odd),
+      tbody tr:nth-child(even) {
+        border: 1px solid var(--line);
+        border-left: 5px solid var(--blue);
+        border-radius: 12px;
+        padding: 10px 12px;
+      }
+
+      tbody tr:nth-child(even) {
+        border-left-color: var(--red);
+      }
+
+      td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 0;
+        border: 0;
+      }
+
+      td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      td:first-child {
+        padding-bottom: 9px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      td:last-child {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .match-options {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .availability-list {
+        right: auto;
+        left: 0;
+      }
+
+      .person-select {
+        width: 100%;
+      }
+
+      .assignment-value {
+        display: none;
+      }
+    }
+
+    @media print {
+      @page {
+        size: portrait;
+        margin: 14mm;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      .page {
+        max-width: none;
+        padding: 0;
+      }
+
+      .page > section:not(#matches-section),
+      .modal-backdrop {
+        display: none !important;
+      }
+
+      #matches-section {
+        margin: 0 !important;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      #matches-section h2,
+      #matches-section > p,
+      #matches-section .footer,
+      #matches-section th:last-child,
+      #matches-section td:last-child,
+      #matches-section .person-select {
+        display: none !important;
+      }
+
+      #matches-section table {
+        display: table !important;
+        width: 100%;
+        margin: 0;
+        table-layout: fixed;
+      }
+
+      #matches-section thead {
+        display: table-header-group !important;
+      }
+
+      #matches-section tbody {
+        display: table-row-group !important;
+      }
+
+      #matches-section tr {
+        display: table-row !important;
+        break-inside: avoid;
+        background: transparent !important;
+      }
+
+      #matches-section th,
+      #matches-section td {
+        display: table-cell !important;
+        padding: 7px 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-bottom: 1px solid var(--line);
+      }
+
+      #matches-section td::before {
+        display: none !important;
+      }
+
+      #matches-section th:nth-child(1),
+      #matches-section td:nth-child(1) {
+        width: 45%;
+      }
+
+      #matches-section th:nth-child(2),
+      #matches-section td:nth-child(2) {
+        width: 35%;
+      }
+
+      #matches-section th:nth-child(3),
+      #matches-section td:nth-child(3) {
+        width: 20%;
+      }
+
+      #matches-section .assignment-value {
+        display: inline;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="panel hero-card">
+        <h1>Matchs locaux du Rocket</h1>
+        <p class="subtitle">
+          Vue rapide des 36 matchs locaux de la saison 2026-2027. Ajoute les personnes avec qui partager
+          les matchs, puis utilise les outils de répartition et d’export.
+        </p>
+      </div>
+    </section>
+
+    <section class="panel table-card">
+      <h2>Personnes participantes</h2>
+      <p class="muted">Ajoute de 1 à 12 personnes. Les noms et les attributions sont sauvegardés sur cet appareil.</p>
+      <div class="roster-list" id="roster-list"></div>
+      <div class="roster-row roster-actions">
+        <span class="roster-add-swatch" aria-hidden="true"></span>
+        <input class="name-input" id="new-person-name" type="text" maxlength="25" placeholder="Nom de la personne">
+        <button class="icon-button" id="add-person-button" type="button" aria-label="Ajouter une personne">+</button>
+      </div>
+      <p class="muted" id="roster-status" style="margin-top: 14px;"></p>
+    </section>
+
+    <section class="panel table-card" style="margin-top: 20px;">
+      <h2>Répartition des 36 matchs</h2>
+      <p class="muted">Les matchs sont répartis le plus également possible selon le nombre de personnes.</p>
+      <div class="distribution-stats">
+        <div class="stat"><strong id="assigned-card">0/36</strong><span>Matchs répartis</span></div>
+        <div class="stat"><strong id="participants-card">0</strong><span>Participants</span></div>
+      </div>
+      <div class="pill-row" id="person-summary"></div>
+      <div class="assignment-toolbar">
+        <div class="toolbar-actions">
+          <button class="button" id="shuffle-button" type="button">Mélanger au hasard</button>
+          <button class="button secondary" id="optimize-button" type="button">Optimiser la répartition</button>
+          <button class="button secondary" id="clear-button" type="button">Effacer les attributions</button>
+          <button class="button secondary" id="export-button" type="button">Exporter</button>
+        </div>
+      </div>
+      <p class="muted" id="optimization-status" style="margin-top: 14px;"></p>
+    </section>
+
+    <section class="grid" style="margin-top: 20px;">
+      <article class="panel chart-card">
+        <h2>Matchs par jour</h2>
+        <p class="muted">Nombre de matchs assignés par jour de semaine et par personne.</p>
+        <div class="legend-chart" id="weekday-person-chart"></div>
+        <div class="chart-legend" id="weekday-person-legend"></div>
+      </article>
+
+      <article class="panel chart-card">
+        <h2>Matchs par mois</h2>
+        <p class="muted">Distribution des matchs assignés selon les mois de la saison.</p>
+        <div class="legend-chart" id="month-person-chart"></div>
+        <div class="chart-legend" id="month-person-legend"></div>
+      </article>
+
+      <article class="panel chart-card wide-chart-card">
+        <h2>Vue chronologique</h2>
+        <p class="muted">Chaque ligne colorée représente une personne; les repères rouges signalent des matchs espacés d’au plus deux jours.</p>
+        <div class="timeline-chart" id="close-match-timeline"></div>
+        <div class="chart-legend" id="timeline-person-legend"></div>
+      </article>
+
+      <article class="panel chart-card wide-chart-card">
+        <h2>Matchs par adversaire</h2>
+        <p class="muted">Répartition des matchs assignés selon l’équipe adverse.</p>
+        <div class="legend-chart opponent-chart" id="opponent-person-chart"></div>
+        <div class="chart-legend" id="opponent-person-legend"></div>
+      </article>
+    </section>
+
+    <section class="panel table-card" id="matches-section" style="margin-top: 20px;">
+      <h2>Liste complète</h2>
+      <p class="muted">Dates, heures, adversaires et personne assignée pour tous les matchs locaux retenus.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Match</th>
+            <th>Adversaire</th>
+            <th>Personne</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody id="matches-table"></tbody>
+      </table>
+      <div class="footer">Source: calendrier PDF du Rocket de Laval 2026-2027, version du 9 juillet 2026.</div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="export-modal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="export-modal-title">
+      <div class="modal-header">
+        <h2 id="export-modal-title">Exporter l’horaire</h2>
+        <button class="icon-button" id="close-export-button" type="button" aria-label="Fermer">×</button>
+      </div>
+      <div class="modal-option">
+        <strong>PDF</strong>
+        <button class="button secondary" id="print-button" type="button">Imprimer / enregistrer en PDF</button>
+      </div>
+      <div class="modal-option">
+        <strong>Calendrier complet</strong>
+        <button class="button secondary" id="export-all-ics-button" type="button">Exporter tout en ICS</button>
+      </div>
+      <div class="modal-option">
+        <strong>Calendrier individuel</strong>
+        <select class="person-select" id="ics-person-select" aria-label="Personne pour l’export ICS"></select>
+        <button class="button secondary" id="export-person-ics-button" type="button">Exporter une personne en ICS</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="match-modal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="match-modal-title">
+      <div class="modal-header">
+        <h2 id="match-modal-title">Détails du match</h2>
+        <button class="icon-button" id="close-match-modal-button" type="button" aria-label="Fermer">×</button>
+      </div>
+      <div class="modal-option" id="match-modal-details"></div>
+    </section>
+  </div>
+
+  <script>
+    const storageKey = "rocket-laval-2026-2027-v2";
+    const colorPalette = ["#c41f3a", "#1a3474", "#1f8f6b", "#f28c28", "#7e57c2", "#00838f", "#ad1457", "#5d4037", "#3949ab", "#558b2f", "#ef6c00", "#455a64"];
+    const maxPeople = 12;
+    let people = [];
+
+    const matches = [
+      { id: 1, date: "2026-10-02", time: "19:00", opponent: "Syracuse Crunch", person: "" },
+      { id: 2, date: "2026-10-03", time: "15:00", opponent: "Syracuse Crunch", person: "" },
+      { id: 3, date: "2026-10-21", time: "19:00", opponent: "Syracuse Crunch", person: "" },
+      { id: 4, date: "2026-10-23", time: "19:00", opponent: "Hamilton Hammers", person: "" },
+      { id: 5, date: "2026-10-24", time: "15:00", opponent: "Hamilton Hammers", person: "" },
+      { id: 6, date: "2026-11-04", time: "19:00", opponent: "Lehigh Valley Phantoms", person: "" },
+      { id: 7, date: "2026-11-06", time: "19:00", opponent: "Cleveland Monsters", person: "" },
+      { id: 8, date: "2026-11-07", time: "15:00", opponent: "Cleveland Monsters", person: "" },
+      { id: 9, date: "2026-11-21", time: "15:00", opponent: "Calgary Wranglers", person: "" },
+      { id: 10, date: "2026-11-22", time: "15:00", opponent: "Calgary Wranglers", person: "" },
+      { id: 11, date: "2026-12-02", time: "19:00", opponent: "Toronto Marlies", person: "" },
+      { id: 12, date: "2026-12-04", time: "19:00", opponent: "Wilkes-Barre/Scranton Penguins", person: "" },
+      { id: 13, date: "2026-12-09", time: "19:00", opponent: "Utica Comets", person: "" },
+      { id: 14, date: "2026-12-30", time: "19:00", opponent: "Belleville Senators", person: "" },
+      { id: 15, date: "2027-01-02", time: "15:00", opponent: "Hartford Wolf Pack", person: "" },
+      { id: 16, date: "2027-01-03", time: "15:00", opponent: "Hartford Wolf Pack", person: "" },
+      { id: 17, date: "2027-01-13", time: "19:00", opponent: "Belleville Senators", person: "" },
+      { id: 18, date: "2027-01-15", time: "19:00", opponent: "Rochester Americans", person: "" },
+      { id: 19, date: "2027-01-16", time: "15:00", opponent: "Rochester Americans", person: "" },
+      { id: 20, date: "2027-01-27", time: "19:00", opponent: "Providence Bruins", person: "" },
+      { id: 21, date: "2027-01-29", time: "19:00", opponent: "Providence Bruins", person: "" },
+      { id: 22, date: "2027-02-03", time: "19:00", opponent: "Belleville Senators", person: "" },
+      { id: 23, date: "2027-02-05", time: "19:00", opponent: "Utica Comets", person: "" },
+      { id: 24, date: "2027-02-06", time: "15:00", opponent: "Rochester Americans", person: "" },
+      { id: 25, date: "2027-02-26", time: "19:00", opponent: "Toronto Marlies", person: "" },
+      { id: 26, date: "2027-02-27", time: "15:00", opponent: "Toronto Marlies", person: "" },
+      { id: 27, date: "2027-03-03", time: "19:00", opponent: "Utica Comets", person: "" },
+      { id: 28, date: "2027-03-05", time: "19:00", opponent: "Hamilton Hammers", person: "" },
+      { id: 29, date: "2027-03-06", time: "15:00", opponent: "Hamilton Hammers", person: "" },
+      { id: 30, date: "2027-03-20", time: "15:00", opponent: "Hershey Bears", person: "" },
+      { id: 31, date: "2027-03-21", time: "17:00", opponent: "Belleville Senators", person: "" },
+      { id: 32, date: "2027-03-26", time: "19:00", opponent: "Springfield Thunderbirds", person: "" },
+      { id: 33, date: "2027-03-27", time: "15:00", opponent: "Springfield Thunderbirds", person: "" },
+      { id: 34, date: "2027-03-31", time: "19:00", opponent: "Belleville Senators", person: "" },
+      { id: 35, date: "2027-04-02", time: "19:00", opponent: "Manitoba Moose", person: "" },
+      { id: 36, date: "2027-04-03", time: "15:00", opponent: "Manitoba Moose", person: "" }
+    ];
+
+    matches.forEach((match) => {
+      match.locked = false;
+      match.unavailable = [];
+    });
+
+    function htmlEscape(value) {
+      return String(value).replace(/[&<>'"]/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        "\"": "&quot;"
+      }[character]));
+    }
+
+    function createPersonId() {
+      return globalThis.crypto?.randomUUID?.() || `person-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
+    function getPerson(personId) {
+      return people.find((person) => person.id === personId);
+    }
+
+    function isAvailableForMatch(match, personId) {
+      return Boolean(getPerson(personId)) && !match.unavailable.includes(personId);
+    }
+
+    function getQuotaBounds() {
+      if (!people.length) {
+        return { minimum: 0, maximum: 0 };
+      }
+      return {
+        minimum: Math.floor(matches.length / people.length),
+        maximum: Math.ceil(matches.length / people.length)
+      };
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify({
+          people: people.map(({ id, name, color }) => ({ id, name, color })),
+          assignments: Object.fromEntries(matches.map((match) => [match.id, {
+            person: match.person,
+            locked: match.locked,
+            unavailable: match.unavailable
+          }]))
+        }));
+      } catch {
+        document.getElementById("roster-status").textContent = "La sauvegarde locale n’est pas disponible dans ce navigateur.";
+      }
+    }
+
+    function restoreState() {
+      try {
+        const state = JSON.parse(localStorage.getItem(storageKey));
+        if (!state || !Array.isArray(state.people)) {
+          return;
+        }
+        const names = new Set();
+        people = state.people
+          .slice(0, maxPeople)
+          .filter((person) => person && typeof person.id === "string" && typeof person.name === "string")
+          .map((person, index) => ({
+            id: person.id,
+            name: person.name.trim().slice(0, 25),
+            color: colorPalette[index % colorPalette.length]
+          }))
+          .filter((person) => person.name && !names.has(person.name.toLocaleLowerCase("fr-CA")) && names.add(person.name.toLocaleLowerCase("fr-CA")));
+
+        matches.forEach((match) => {
+          const savedMatch = state.assignments?.[match.id];
+          const personId = typeof savedMatch === "string" ? savedMatch : savedMatch?.person;
+          match.person = people.some((person) => person.id === personId) ? personId : "";
+          match.locked = Boolean(savedMatch?.locked && match.person);
+          match.unavailable = Array.isArray(savedMatch?.unavailable)
+            ? savedMatch.unavailable.filter((personId) => people.some((person) => person.id === personId) && personId !== match.person)
+            : [];
+        });
+      } catch {
+        // Une sauvegarde invalide ne doit pas empêcher l’utilisation de l’horaire.
+      }
+    }
+
+    function renderRoster() {
+      const target = document.getElementById("roster-list");
+      target.innerHTML = people.map((person) => `
+        <div class="roster-row">
+          <span class="swatch" style="--swatch:${person.color}"></span>
+          <input class="name-input roster-name-input" data-person-id="${person.id}" type="text" maxlength="25" value="${htmlEscape(person.name)}" aria-label="Nom de la personne">
+          <button class="icon-button remove-person-button" data-person-id="${person.id}" type="button" aria-label="Retirer ${htmlEscape(person.name)}">−</button>
+        </div>
+      `).join("");
+
+      const status = document.getElementById("roster-status");
+      status.textContent = people.length
+        ? `${people.length} personne${people.length > 1 ? "s" : ""} enregistrée${people.length > 1 ? "s" : ""} localement.`
+        : "Ajoute au moins une personne pour commencer la répartition.";
+      document.getElementById("add-person-button").disabled = people.length >= maxPeople;
+      document.getElementById("new-person-name").disabled = people.length >= maxPeople;
+
+      document.querySelectorAll(".roster-name-input").forEach((input) => {
+        input.addEventListener("change", (event) => renamePerson(event.target.dataset.personId, event.target.value));
+      });
+      document.querySelectorAll(".remove-person-button").forEach((button) => {
+        button.addEventListener("click", () => removePerson(button.dataset.personId));
+      });
+    }
+
+    function addPerson() {
+      const input = document.getElementById("new-person-name");
+      const name = input.value.trim().slice(0, 25);
+      if (!name || people.length >= maxPeople) {
+        document.getElementById("roster-status").textContent = name ? "Le maximum est de 12 personnes." : "Entre un nom avant d’ajouter une personne.";
+        return;
+      }
+      if (people.some((person) => person.name.localeCompare(name, "fr-CA", { sensitivity: "accent" }) === 0)) {
+        document.getElementById("roster-status").textContent = "Ce nom est déjà dans la liste.";
+        return;
+      }
+      people.push({ id: createPersonId(), name, color: colorPalette[people.length % colorPalette.length] });
+      input.value = "";
+      saveState();
+      renderAll();
+    }
+
+    function renamePerson(personId, rawName) {
+      const person = getPerson(personId);
+      const name = rawName.trim().slice(0, 25);
+      if (!person || !name || people.some((item) => item.id !== personId && item.name.localeCompare(name, "fr-CA", { sensitivity: "accent" }) === 0)) {
+        document.getElementById("roster-status").textContent = name ? "Chaque personne doit avoir un nom distinct." : "Un nom ne peut pas être vide.";
+        renderRoster();
+        return;
+      }
+      person.name = name;
+      saveState();
+      renderAll();
+    }
+
+    function removePerson(personId) {
+      matches.forEach((match) => {
+        match.unavailable = match.unavailable.filter((item) => item !== personId);
+        if (match.person === personId) {
+          match.person = "";
+          match.locked = false;
+        }
+      });
+      people = people.filter((person) => person.id !== personId);
+      if (people.length) optimizeAssignments();
+      saveState();
+      renderAll();
+    }
+
+    const monthOrder = ["Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars", "Avril"];
+    const weekdayOrder = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+
+    const monthLabels = {
+      9: "Octobre",
+      10: "Novembre",
+      11: "Décembre",
+      0: "Janvier",
+      1: "Février",
+      2: "Mars",
+      3: "Avril"
+    };
+
+    const weekdayLabels = {
+      0: "Dimanche",
+      1: "Lundi",
+      2: "Mardi",
+      3: "Mercredi",
+      4: "Jeudi",
+      5: "Vendredi",
+      6: "Samedi"
+    };
+
+    const hourLabels = {
+      "15:00": "15 h",
+      "17:00": "17 h",
+      "19:00": "19 h"
+    };
+
+    function countBy(items, getKey) {
+      return items.reduce((acc, item) => {
+        const key = getKey(item);
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+      }, {});
+    }
+
+    function fmtDate(dateStr) {
+      const date = new Date(`${dateStr}T12:00:00`);
+      return new Intl.DateTimeFormat("fr-CA", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(date);
+    }
+
+    function fmtWeekday(dateStr) {
+      const date = new Date(`${dateStr}T12:00:00`);
+      return weekdayLabels[date.getDay()];
+    }
+
+    function fmtMatchLabel(match) {
+      const date = new Date(`${match.date}T12:00:00`);
+      const dateLabel = new Intl.DateTimeFormat("fr-CA", {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+      }).format(date);
+      return `#${match.id} — ${dateLabel}, ${hourLabels[match.time]}`;
+    }
+
+    function monthName(dateStr) {
+      const date = new Date(`${dateStr}T12:00:00`);
+      return monthLabels[date.getMonth()];
+    }
+
+    function shuffle(list) {
+      const copy = [...list];
+      for (let index = copy.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+      }
+      return copy;
+    }
+
+    function buildBarChart(targetId, rows, className = "") {
+      const target = document.getElementById(targetId);
+      const max = Math.max(1, ...rows.map((row) => row.value));
+      target.innerHTML = rows.map((row) => `
+        <div class="bar-row">
+          <div>${row.label}</div>
+          <div class="bar-track">
+            <div class="bar-fill ${className}" style="width:${(row.value / max) * 100}%"></div>
+          </div>
+          <strong>${row.value}</strong>
+        </div>
+      `).join("");
+    }
+
+    function buildTimeChips(targetId, rows) {
+      const target = document.getElementById(targetId);
+      target.innerHTML = rows.map((row) => `
+        <div class="chip"><strong>${row.label}</strong>${row.value} matchs</div>
+      `).join("");
+    }
+
+    function buildStackChart(targetId, rows) {
+      const target = document.getElementById(targetId);
+      const max = Math.max(1, ...rows.map((row) => row.total));
+      target.innerHTML = rows.map((row) => {
+        const segments = row.counts.map((part) => {
+          if (!part.value) {
+            return "";
+          }
+          const width = (part.value / max) * 100;
+          return `<div class="stack-segment" style="width:${width}%;background:${part.color}">${part.value}</div>`;
+        }).join("");
+        return `
+          <div class="stack-row">
+            <div>${row.label}</div>
+            <div class="stack-bar">${segments}</div>
+            <strong>${row.total}</strong>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function buildCloseMatchTimeline() {
+      const target = document.getElementById("close-match-timeline");
+      const dates = matches.map((match) => new Date(`${match.date}T12:00:00`).getTime());
+      const start = Math.min(...dates);
+      const end = Math.max(...dates);
+      const range = Math.max(1, end - start);
+
+      const monthGuides = monthOrder.map((month) => {
+        const firstMatch = matches.find((match) => monthName(match.date) === month);
+        if (!firstMatch) return "";
+        const timestamp = new Date(`${firstMatch.date}T12:00:00`).getTime();
+        const top = ((timestamp - start) / range) * 100;
+        return `<div class="timeline-month-guide" style="top:${top}%"><span>${month}</span></div>`;
+      }).join("");
+
+      const columns = people.map((person) => {
+        const personMatches = matches
+          .filter((match) => match.person === person.id)
+          .map((match) => ({ ...match, timestamp: new Date(`${match.date}T12:00:00`).getTime() }))
+          .sort((first, second) => first.timestamp - second.timestamp);
+        const closeMatchIds = new Set();
+        const horizontalOffsets = new Map();
+        let closeGroup = [];
+        const closeGap = 2 * 24 * 60 * 60 * 1000;
+        const applyCloseGroup = () => {
+          if (closeGroup.length < 2) return;
+          closeGroup.forEach((match, index) => {
+            closeMatchIds.add(match.id);
+            horizontalOffsets.set(match.id, (index - (closeGroup.length - 1) / 2) * 18);
+          });
+        };
+        personMatches.forEach((match, index) => {
+          if (!index || match.timestamp - personMatches[index - 1].timestamp <= closeGap) {
+            closeGroup.push(match);
+            return;
+          }
+          applyCloseGroup();
+          closeGroup = [match];
+        });
+        applyCloseGroup();
+
+        const dots = personMatches.map((match) => {
+          const top = ((match.timestamp - start) / range) * 100;
+          const closeClass = closeMatchIds.has(match.id) ? " is-close" : "";
+          const offset = horizontalOffsets.get(match.id) || 0;
+          return `<button class="vertical-timeline-dot${closeClass}" type="button" data-match-id="${match.id}" aria-label="Voir ${htmlEscape(fmtMatchLabel(match))}" title="${htmlEscape(fmtMatchLabel(match))}" style="top:${top}%;margin-left:${offset}px;background:${person.color}"></button>`;
+        }).join("");
+        return `<div class="timeline-person-column"><span class="timeline-person-track" style="background:${person.color}"></span>${dots}</div>`;
+      }).join("");
+
+      target.innerHTML = people.length
+        ? `${monthGuides}<div class="timeline-columns" style="--person-count:${people.length}">${columns}</div>`
+        : "<p class=\"muted\">Ajoute des participants pour visualiser la saison.</p>";
+    }
+
+    function openMatchModal(matchId) {
+      const match = matches.find((item) => item.id === matchId);
+      if (!match) return;
+      const person = getPerson(match.person)?.name || "Non assigné";
+      const unavailable = match.unavailable.length;
+      document.getElementById("match-modal-title").textContent = fmtMatchLabel(match);
+      document.getElementById("match-modal-details").innerHTML = `
+        <p><strong>Adversaire :</strong> ${htmlEscape(match.opponent)}</p>
+        <p><strong>Personne :</strong> ${htmlEscape(person)}</p>
+        <p><strong>Statut :</strong> ${match.locked ? "Verrouillé" : "Modifiable"}</p>
+        ${unavailable ? `<p><strong>Indisponibilités :</strong> ${unavailable}</p>` : ""}
+      `;
+      document.getElementById("match-modal").hidden = false;
+    }
+
+    function renderSelect(match) {
+      const options = [`<option value="">Non assigné</option>`].concat(
+        people.map((person) => `<option value="${person.id}" ${match.person === person.id ? "selected" : ""} ${!isAvailableForMatch(match, person.id) ? "disabled" : ""}>${htmlEscape(person.name)}</option>`)
+      );
+      return `<select class="person-select" data-match-id="${match.id}" ${match.locked ? "disabled" : ""}>${options.join("")}</select>`;
+    }
+
+    function renderMatchOptions(match) {
+      const unavailableCount = match.unavailable.length;
+      const availability = people.map((person) => {
+        const isAssigned = match.person === person.id;
+        return `<label><input class="availability-checkbox" type="checkbox" data-match-id="${match.id}" data-person-id="${person.id}" ${match.unavailable.includes(person.id) ? "checked" : ""} ${isAssigned ? "disabled" : ""}>${htmlEscape(person.name)}${isAssigned ? " (assigné)" : ""}</label>`;
+      }).join("");
+      return `
+        <div class="match-options">
+          <button class="lock-button ${match.locked ? "is-locked" : ""}" data-match-id="${match.id}" type="button" ${!match.person ? "disabled" : ""} aria-label="${match.locked ? "Déverrouiller" : "Verrouiller"} le match">${match.locked ? "Verrouillé" : "Verrouiller"}</button>
+          <details class="availability-menu">
+            <summary>Indisponibles (${unavailableCount})</summary>
+            <div class="availability-list">${availability || "Aucun participant"}</div>
+          </details>
+        </div>
+      `;
+    }
+
+    function getMatchCountsByPerson() {
+      return people.map((person) => ({
+        ...person,
+        count: matches.filter((match) => match.person === person.id).length
+      }));
+    }
+
+    function groupedPersonRows(labels, bucketFn) {
+      return labels.map((label) => {
+        const counts = people.map((person) => ({
+          person: person.id,
+          color: person.color,
+          value: matches.filter((match) => match.person === person.id && bucketFn(match) === label).length
+        }));
+        return {
+          label,
+          counts,
+          total: counts.reduce((sum, item) => sum + item.value, 0)
+        };
+      });
+    }
+
+    function assignRandomBalanced() {
+      if (!people.length) {
+        return;
+      }
+      const { maximum } = getQuotaBounds();
+      matches.filter((match) => !match.locked).forEach((match) => {
+        match.person = "";
+      });
+      shuffle(matches.filter((match) => !match.locked)).forEach((match) => {
+        const eligiblePeople = people.filter((person) =>
+          isAvailableForMatch(match, person.id) && matches.filter((item) => item.person === person.id).length < maximum
+        );
+        if (!eligiblePeople.length) return;
+        const fewestMatches = Math.min(...eligiblePeople.map((person) => matches.filter((item) => item.person === person.id).length));
+        const choices = eligiblePeople.filter((person) => matches.filter((item) => item.person === person.id).length === fewestMatches);
+        match.person = shuffle(choices)[0].id;
+      });
+    }
+
+    function clearAssignments() {
+      matches.forEach((match) => {
+        if (!match.locked) match.person = "";
+      });
+    }
+
+    function assignmentScore() {
+      if (!people.length) {
+        return Infinity;
+      }
+      const countSpread = (values) => {
+        const average = values.reduce((sum, value) => sum + value, 0) / values.length;
+        return values.reduce((sum, value) => sum + (value - average) ** 2, 0);
+      };
+
+      const personCounts = people.map((person) => matches.filter((match) => match.person === person.id).length);
+      let score = countSpread(personCounts) * 100000;
+
+      weekdayOrder.forEach((weekday) => {
+        const counts = people.map((person) => matches.filter((match) =>
+          match.person === person.id && fmtWeekday(match.date) === weekday
+        ).length);
+        const weight = weekday === "Vendredi" || weekday === "Samedi"
+          ? 40
+          : weekday === "Dimanche"
+            ? 15
+            : 2;
+        score += countSpread(counts) * weight;
+      });
+
+      monthOrder.forEach((month) => {
+        const counts = people.map((person) => matches.filter((match) =>
+          match.person === person.id && monthName(match.date) === month
+        ).length);
+        score += countSpread(counts) * 4;
+      });
+
+      people.forEach((person) => {
+        const assignedMatches = matches
+          .filter((match) => match.person === person.id)
+          .map((match) => new Date(`${match.date}T12:00:00`).getTime())
+          .sort((first, second) => first - second);
+        assignedMatches.slice(1).forEach((timestamp, index) => {
+          const gapInDays = (timestamp - assignedMatches[index]) / (24 * 60 * 60 * 1000);
+          if (gapInDays <= 10) {
+            score += (11 - gapInDays) * 15;
+          }
+        });
+      });
+
+      return score;
+    }
+
+    function bestCountRepair() {
+      const { minimum, maximum } = getQuotaBounds();
+      const donors = people.filter((person) => matches.filter((match) => match.person === person.id).length > minimum);
+      const receivers = people.filter((person) => matches.filter((match) => match.person === person.id).length < minimum);
+      if (!donors.length || !receivers.length) {
+        return false;
+      }
+
+      let bestMove;
+      let bestScore = Infinity;
+      donors.forEach((donor) => {
+        matches.filter((match) => match.person === donor.id && !match.locked).forEach((match) => {
+          receivers.forEach((receiver) => {
+            if (!isAvailableForMatch(match, receiver.id)) return;
+            match.person = receiver.id;
+            const score = assignmentScore();
+            match.person = donor.id;
+            if (score < bestScore) {
+              bestScore = score;
+              bestMove = { match, receiver: receiver.id };
+            }
+          });
+        });
+      });
+
+      if (!bestMove) {
+        return false;
+      }
+      bestMove.match.person = bestMove.receiver;
+      return true;
+    }
+
+    function fillUnassignedMatch() {
+      const match = matches.find((item) => !item.person && !item.locked);
+      if (!match) {
+        return false;
+      }
+      const { maximum } = getQuotaBounds();
+      const eligiblePeople = people.filter((person) => isAvailableForMatch(match, person.id) && matches.filter((item) => item.person === person.id).length < maximum);
+      if (!eligiblePeople.length) {
+        return false;
+      }
+
+      let bestPerson;
+      let bestScore = Infinity;
+      eligiblePeople.forEach((person) => {
+        match.person = person.id;
+        const score = assignmentScore();
+        match.person = "";
+        if (score < bestScore) {
+          bestScore = score;
+          bestPerson = person.id;
+        }
+      });
+      match.person = bestPerson;
+      return true;
+    }
+
+    function bestImprovingSwap() {
+      const baseline = assignmentScore();
+      let bestSwap;
+      let bestScore = baseline;
+
+      for (let firstIndex = 0; firstIndex < matches.length; firstIndex += 1) {
+        for (let secondIndex = firstIndex + 1; secondIndex < matches.length; secondIndex += 1) {
+          const first = matches[firstIndex];
+          const second = matches[secondIndex];
+          if (!first.person || !second.person || first.person === second.person || first.locked || second.locked || !isAvailableForMatch(first, second.person) || !isAvailableForMatch(second, first.person)) {
+            continue;
+          }
+          [first.person, second.person] = [second.person, first.person];
+          const score = assignmentScore();
+          [first.person, second.person] = [second.person, first.person];
+          if (score < bestScore) {
+            bestScore = score;
+            bestSwap = { first, second };
+          }
+        }
+      }
+
+      if (!bestSwap) {
+        return false;
+      }
+      [bestSwap.first.person, bestSwap.second.person] = [bestSwap.second.person, bestSwap.first.person];
+      return true;
+    }
+
+    function optimizeAssignments() {
+      if (!people.length) {
+        document.getElementById("optimization-status").textContent = "Ajoute au moins une personne avant d’optimiser la répartition.";
+        return;
+      }
+      let repairedCount = 0;
+      let completedCount = 0;
+      let swapCount = 0;
+
+      while (bestCountRepair()) {
+        repairedCount += 1;
+      }
+      while (fillUnassignedMatch()) {
+        completedCount += 1;
+      }
+      while (bestCountRepair()) {
+        repairedCount += 1;
+      }
+      while (bestImprovingSwap()) {
+        swapCount += 1;
+      }
+
+      const changes = [];
+      if (completedCount) changes.push(`${completedCount} attribution${completedCount > 1 ? "s" : ""}`);
+      if (repairedCount) changes.push(`${repairedCount} rééquilibrage${repairedCount > 1 ? "s" : ""}`);
+      if (swapCount) changes.push(`${swapCount} échange${swapCount > 1 ? "s" : ""}`);
+      const unavailableMatches = matches.filter((match) => !match.person).length;
+      if (unavailableMatches) changes.push(`${unavailableMatches} match${unavailableMatches > 1 ? "s" : ""} sans personne disponible`);
+      document.getElementById("optimization-status").textContent = changes.length
+        ? `Optimisation appliquée : ${changes.join(", ")}.`
+        : "La répartition actuelle est déjà optimale selon les critères choisis.";
+    }
+
+    function icsEscape(value) {
+      return String(value)
+        .replace(/\\/g, "\\\\")
+        .replace(/;/g, "\\;")
+        .replace(/,/g, "\\,")
+        .replace(/\r?\n/g, "\\n");
+    }
+
+    function icsLocalTime(date, time, hoursToAdd = 0) {
+      const [year, month, day] = date.split("-").map(Number);
+      const [hour, minute] = time.split(":").map(Number);
+      const result = new Date(Date.UTC(year, month - 1, day, hour + hoursToAdd, minute));
+      const pad = (value) => String(value).padStart(2, "0");
+      return `${result.getUTCFullYear()}${pad(result.getUTCMonth() + 1)}${pad(result.getUTCDate())}T${pad(result.getUTCHours())}${pad(result.getUTCMinutes())}00`;
+    }
+
+    function downloadFile(filename, content, type) {
+      const url = URL.createObjectURL(new Blob([content], { type }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportIcs(personId = "") {
+      const selectedPerson = personId ? getPerson(personId) : null;
+      const exportMatches = selectedPerson
+        ? matches.filter((match) => match.person === selectedPerson.id)
+        : matches;
+      const calendarName = selectedPerson
+        ? `Rocket de Laval — ${selectedPerson.name}`
+        : "Rocket de Laval — Matchs locaux";
+      const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+      const events = exportMatches.map((match) => {
+        const assignee = getPerson(match.person)?.name || "Non assigné";
+        return [
+          "BEGIN:VEVENT",
+          `UID:rocket-laval-2026-2027-${match.id}-${personId || "tous"}@local`,
+          `DTSTAMP:${stamp}`,
+          `DTSTART;TZID=America/Toronto:${icsLocalTime(match.date, match.time)}`,
+          `DTEND;TZID=America/Toronto:${icsLocalTime(match.date, match.time, 3)}`,
+          `SUMMARY:${icsEscape(`Rocket de Laval c. ${match.opponent} (${assignee})`)}`,
+          `DESCRIPTION:${icsEscape(`Personne assignée : ${assignee}`)}`,
+          "END:VEVENT"
+        ].join("\r\n");
+      });
+      const ics = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Rocket de Laval//Partage des matchs//FR",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        `X-WR-CALNAME:${icsEscape(calendarName)}`,
+        "X-WR-TIMEZONE:America/Toronto",
+        ...events,
+        "END:VCALENDAR",
+        ""
+      ].join("\r\n");
+      const slug = (selectedPerson?.name || "tous-les-matchs")
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "").toLowerCase();
+      downloadFile(`rocket-laval-2026-2027-${slug}.ics`, ics, "text/calendar;charset=utf-8");
+    }
+
+    function renderStaticCharts() {
+      const monthCounts = countBy(matches, (match) => monthName(match.date));
+      const weekdayCounts = countBy(matches, (match) => fmtWeekday(match.date));
+      const timeCounts = countBy(matches, (match) => hourLabels[match.time]);
+      const opponentCounts = countBy(matches, (match) => match.opponent);
+
+      const monthRows = monthOrder.map((label) => ({ label, value: monthCounts[label] || 0 })).filter((row) => row.value > 0);
+      const weekdayRows = weekdayOrder.map((label) => ({ label, value: weekdayCounts[label] || 0 }));
+      const topMonth = [...monthRows].sort((a, b) => b.value - a.value)[0];
+      const topWeekday = [...weekdayRows].sort((a, b) => b.value - a.value)[0];
+
+      return { topMonth, topWeekday };
+    }
+
+    function renderAssignmentsSummary(counts) {
+      document.getElementById("person-summary").innerHTML = counts.map((person) => `
+        <div class="person-pill">
+          <span class="swatch" style="--swatch:${person.color}"></span>
+          <strong>${htmlEscape(person.name)}</strong>
+          <span>${person.count} match${person.count > 1 ? "s" : ""}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderChartLegend(targetId) {
+      document.getElementById(targetId).innerHTML = people.map((person) => `
+        <div class="person-pill">
+          <span class="swatch" style="--swatch:${person.color}"></span>
+          <span>${htmlEscape(person.name)}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderTable() {
+      document.getElementById("matches-table").innerHTML = matches.map((match) => `
+        <tr>
+          <td data-label="Match"><strong>${fmtMatchLabel(match)}</strong></td>
+          <td data-label="Adversaire">${match.opponent}</td>
+          <td data-label="Personne"><span class="assignment-value">${htmlEscape(getPerson(match.person)?.name || "Non assigné")}</span>${renderSelect(match)}</td>
+          <td data-label="Options">${renderMatchOptions(match)}</td>
+        </tr>
+      `).join("");
+
+      document.querySelectorAll(".person-select").forEach((select) => {
+        select.addEventListener("change", (event) => {
+          const matchId = Number(event.target.dataset.matchId);
+          const match = matches.find((item) => item.id === matchId);
+          if (match && !match.locked && (event.target.value === "" || isAvailableForMatch(match, event.target.value))) {
+            match.person = event.target.value;
+            saveState();
+            renderDynamicData();
+          }
+        });
+      });
+
+      document.querySelectorAll(".lock-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const match = matches.find((item) => item.id === Number(button.dataset.matchId));
+          if (match?.person) {
+            match.locked = !match.locked;
+            saveState();
+            renderDynamicData();
+          }
+        });
+      });
+
+      document.querySelectorAll(".availability-checkbox").forEach((checkbox) => {
+        checkbox.addEventListener("change", (event) => {
+          const match = matches.find((item) => item.id === Number(event.target.dataset.matchId));
+          const personId = event.target.dataset.personId;
+          if (!match || (event.target.checked && match.person === personId)) {
+            renderTable();
+            return;
+          }
+          match.unavailable = event.target.checked
+            ? [...new Set([...match.unavailable, personId])]
+            : match.unavailable.filter((item) => item !== personId);
+          saveState();
+          renderDynamicData();
+        });
+      });
+    }
+
+    function renderDynamicData() {
+      const counts = getMatchCountsByPerson();
+      const assigned = counts.reduce((sum, person) => sum + person.count, 0);
+      renderAssignmentsSummary(counts);
+      renderTable();
+      renderRoster();
+      document.getElementById("assigned-card").textContent = `${assigned}/${matches.length}`;
+      document.getElementById("participants-card").textContent = people.length;
+
+      const weekdayRows = groupedPersonRows(weekdayOrder, (match) => fmtWeekday(match.date));
+      const monthRows = groupedPersonRows(monthOrder, (match) => monthName(match.date));
+      const opponentRows = Object.keys(countBy(matches, (match) => match.opponent))
+        .sort((a, b) => a.localeCompare(b, "fr"));
+      buildStackChart("weekday-person-chart", weekdayRows);
+      buildStackChart("month-person-chart", monthRows);
+      buildStackChart("opponent-person-chart", groupedPersonRows(opponentRows, (match) => match.opponent));
+      buildCloseMatchTimeline();
+      document.querySelectorAll(".vertical-timeline-dot").forEach((dot) => {
+        dot.addEventListener("click", () => openMatchModal(Number(dot.dataset.matchId)));
+      });
+      renderChartLegend("weekday-person-legend");
+      renderChartLegend("month-person-legend");
+      renderChartLegend("opponent-person-legend");
+      renderChartLegend("timeline-person-legend");
+
+      const hasPeople = people.length > 0;
+      document.getElementById("ics-person-select").innerHTML = people.length
+        ? people.map((person) => `<option value="${person.id}">${htmlEscape(person.name)}</option>`).join("")
+        : "<option value=\"\">Aucune personne</option>";
+      ["shuffle-button", "optimize-button", "clear-button", "export-button", "print-button", "export-all-ics-button", "export-person-ics-button"].forEach((id) => {
+        document.getElementById(id).disabled = !hasPeople;
+      });
+      document.getElementById("ics-person-select").disabled = !hasPeople;
+    }
+
+    renderStaticCharts();
+
+    function renderAll() {
+      renderDynamicData();
+    }
+
+    document.getElementById("add-person-button").addEventListener("click", addPerson);
+    document.getElementById("new-person-name").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        addPerson();
+      }
+    });
+
+    document.getElementById("shuffle-button").addEventListener("click", () => {
+      assignRandomBalanced();
+      document.getElementById("optimization-status").textContent = "";
+      saveState();
+      renderAll();
+    });
+
+    document.getElementById("optimize-button").addEventListener("click", () => {
+      optimizeAssignments();
+      saveState();
+      renderAll();
+    });
+
+    document.getElementById("clear-button").addEventListener("click", () => {
+      clearAssignments();
+      document.getElementById("optimization-status").textContent = "";
+      saveState();
+      renderAll();
+    });
+
+    const exportModal = document.getElementById("export-modal");
+    document.getElementById("export-button").addEventListener("click", () => {
+      exportModal.hidden = false;
+    });
+    document.getElementById("close-export-button").addEventListener("click", () => {
+      exportModal.hidden = true;
+    });
+    exportModal.addEventListener("click", (event) => {
+      if (event.target === exportModal) exportModal.hidden = true;
+    });
+
+    const matchModal = document.getElementById("match-modal");
+    document.getElementById("close-match-modal-button").addEventListener("click", () => {
+      matchModal.hidden = true;
+    });
+    matchModal.addEventListener("click", (event) => {
+      if (event.target === matchModal) matchModal.hidden = true;
+    });
+
+    document.getElementById("print-button").addEventListener("click", () => {
+      exportModal.hidden = true;
+      window.print();
+    });
+    document.getElementById("export-all-ics-button").addEventListener("click", () => {
+      exportIcs();
+      exportModal.hidden = true;
+    });
+    document.getElementById("export-person-ics-button").addEventListener("click", () => {
+      exportIcs(document.getElementById("ics-person-select").value);
+      exportModal.hidden = true;
+    });
+
+    restoreState();
+    renderAll();
+  </script>
+</body>
+</html>
